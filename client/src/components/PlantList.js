@@ -2,16 +2,30 @@ import React, { Component } from "react";
 import axios from "axios";
 import PlantFilter from "./PlantFilter";
 
-let searchStyle = {
-  width: "500px",
-};
-
 export default class PlantList extends Component {
   // add state with a property called "plants" - initialize as an empty array
   constructor() {
     super();
-    this.state = { plants: [], inputValue: "" };
+    this.state = {
+      plants: [],
+      inputValue: "",
+      allPlants: [],
+    };
   }
+  // searchStyle = {
+  //   width: "500px",
+  // };
+
+  handleChange = (e) => {
+    e.preventDefault();
+    console.log(e.target.value);
+    this.setState({ inputValue: e.target.value });
+    e.target.value !== ""
+      ? this.setState({
+          plants: this.state.allPlants.filter((item) => item.light === e.target.value),
+        })
+      : this.setState({ plants: this.state.allPlants });
+  };
 
   // when the component mounts:
   //   - fetch data from the server endpoint - http://localhost:3333/plants
@@ -22,6 +36,7 @@ export default class PlantList extends Component {
       .then((res) => {
         console.log(res.data.plantsData);
         this.setState({ plants: [...res.data.plantsData] });
+        this.setState({ allPlants: [...res.data.plantsData] });
       })
       .catch((err) => console.log(err));
   }
@@ -30,7 +45,7 @@ export default class PlantList extends Component {
   render() {
     return (
       <>
-        <PlantFilter style={searchStyle} state={this.state} />
+        <PlantFilter style={this.searchStyle} handleChange={this.handleChange} />
         <main className="plant-list">
           {this.state?.plants?.map((plant) => (
             <div className="plant-card" key={plant.id}>

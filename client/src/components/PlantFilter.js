@@ -1,21 +1,17 @@
 import React from "react";
-import PlantList from "./PlantList";
 
-const PlantFilter = ({ inputValue, plants }) => {
-  //   const filter = (searchValue) => {
-  //     plants.filter((item) => item.contains(searchValue));
-  //   };
+const PlantFilter = ({ handleChange }) => {
   return (
     <label htmlFor="filter">
-      Search
-      <input
-        type="text"
-        id="filter"
-        name="filter"
-        placeholder="Filter By"
-        value={inputValue}
-        // onChange={filter(inputValue)}
-      />
+      {`Filter By `}
+      <select id="filter" name="filter" placeholder="Filter By" onChange={handleChange}>
+        <option value="">All Plants</option>
+        <optgroup>
+          <option value="direct">Direct Sun</option>
+          <option value="indirect">Indirect Sun</option>
+          <option value="low">Low Sun</option>
+        </optgroup>
+      </select>
     </label>
   );
 };
