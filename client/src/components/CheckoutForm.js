@@ -15,17 +15,19 @@ const initialValue = {
 // and replace the necessary stateful logic from CheckoutForm with the hook
 
 const CheckoutForm = () => {
-  const [showSuccessMessage, setShowSuccessMessage] = useForm(false);
-  const [values, setValues] = useForm(initialValue);
-  // const [allValues, setAllValues] = useForm(initialValue, false);
+  // const [showSuccessMessage, setShowSuccessMessage] = useForm(false);
+  // const [values, setValues] = useForm(initialValue);
+  const [values, setValues] = useForm([initialValue, false]);
 
   const handleChanges = (e) => {
-    setValues({ ...values, [e.target.name]: e.target.value });
+    // setValues({ ...values, [e.target.name]: e.target.value });
+    setValues([{ ...values[0], [e.target.name]: e.target.value }, values[1]]);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setShowSuccessMessage(true);
+    // setShowSuccessMessage(true);
+    setValues([values[0], true]);
   };
 
   return (
@@ -74,7 +76,7 @@ const CheckoutForm = () => {
         <button>Checkout</button>
       </form>
 
-      {showSuccessMessage && (
+      {values[1] && (
         <div className="success-message" data-testid="successMessage">
           <p>
             You have ordered some plants! Woo-hoo! <span role="img">🎉</span>
@@ -83,11 +85,11 @@ const CheckoutForm = () => {
           <br />
           <br />
           <p>
-            {values.firstName} {values.lastName}
+            {values[0].firstName} {values[0].lastName}
           </p>
-          <p>{values.address}</p>
+          <p>{values[0].address}</p>
           <p>
-            {values.city}, {values.state} {values.zip}
+            {values[0].city}, {values[0].state} {values[0].zip}
           </p>
         </div>
       )}
