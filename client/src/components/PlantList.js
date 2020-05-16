@@ -12,9 +12,6 @@ export default class PlantList extends Component {
       allPlants: [],
     };
   }
-  // searchStyle = {
-  //   width: "500px",
-  // };
 
   handleChange = (e) => {
     e.preventDefault();
@@ -22,7 +19,9 @@ export default class PlantList extends Component {
     this.setState({ inputValue: e.target.value });
     e.target.value !== ""
       ? this.setState({
-          plants: this.state.allPlants.filter((item) => item.light === e.target.value),
+          plants: this.state.allPlants.filter(
+            (item) => item.light === e.target.value || item.watering === Number(e.target.value)
+          ),
         })
       : this.setState({ plants: this.state.allPlants });
   };
@@ -45,7 +44,7 @@ export default class PlantList extends Component {
   render() {
     return (
       <>
-        <PlantFilter style={this.searchStyle} handleChange={this.handleChange} />
+        <PlantFilter handleChange={this.handleChange} />
         <main className="plant-list">
           {this.state?.plants?.map((plant) => (
             <div className="plant-card" key={plant.id}>
